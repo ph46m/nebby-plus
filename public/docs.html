@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nebby API - Loja Oficial</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #121212;
+      color: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .top-bar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 15px 20px;
+      background: #1f1f1f;
+      border-bottom: 1px solid #2a2a2a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+    .top-bar h5 {
+      font-size: 18px;
+      color: #2e8b57;
+    }
+    .menu-btn, .adm-btn {
+      background: #2e8b57;
+      color: #fff;
+      font-size: 14px;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    .menu-btn:hover, .adm-btn:hover {
+      background: #fff;
+      color: #2e8b57;
+      border: 1px solid #2e8b57;
+    }
+    .sidebar {
+      position: fixed;
+      left: -270px;
+      top: 0;
+      width: 250px;
+      height: 100%;
+      background: #1f1f1f;
+      padding-top: 60px;
+      transition: left 0.3s ease;
+      z-index: 2000;
+    }
+    .sidebar.show {
+      left: 0;
+    }
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: #2e8b57;
+      cursor: pointer;
+    }
+    .menu-category {
+      padding: 15px;
+      color: #2e8b57;
+      border-bottom: 1px solid #333;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+    }
+    .submenu {
+      display: none;
+      background: #262626;
+      padding: 0 15px;
+    }
+    .submenu.show {
+      display: block;
+    }
+    .submenu a {
+      color: #ddd;
+      text-decoration: none;
+      display: block;
+      padding: 10px 0;
+      border-bottom: 1px dashed #444;
+    }
+    .submenu a:hover {
+      color: #2e8b57;
+    }
+    main {
+      margin-top: 100px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+    .card {
+      background: #1c1c1c;
+      border-radius: 10px;
+      padding: 20px;
+      width: 300px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+    .card-header .icon {
+      font-size: 36px;
+      color: #2e8b57;
+    }
+    .card-header h2 {
+      font-size: 20px;
+      color: #2e8b57;
+      margin-top: 10px;
+    }
+    .description {
+      font-size: 14px;
+      color: #ccc;
+      margin: 10px 0;
+    }
+    .btn {
+      background: #2e8b57;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: #fff;
+      color: #2e8b57;
+      border: 1px solid #2e8b57;
+    }
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      background: #111;
+      border: 1px solid #2e8b57;
+      border-radius: 6px;
+      color: white;
+    }
+    footer {
+      text-align: center;
+      margin: 40px 0 20px;
+      color: #777;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .top-bar h5 {
+        font-size: 16px;
+      }
+      .card {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+    <h5>Nebby API - Loja Oficial</h5>
+    <button class="adm-btn" onclick="location.href='jogo'"><i class="fas fa-crown"></i></button>
+  </div>
+
+  <div class="sidebar" id="sidebar">
+    <button class="close-btn" onclick="toggleMenu()"><i class="fas fa-times"></i></button>
+    <div class="menu-category" onclick="toggleSubmenu('downloads')">Downloads</div>
+    <div class="submenu" id="downloads">
+      <a href="/api/play-audio?title=matuê%20groupies&apikey=SuaKey">Play Mp3</a>
+      <a href="/api/youtube-mp4?title=digite%20o%20nome%20do%20v%C3%ADdeo&apikey=sua_apikey">Play Mp4</a>
+         <a href="/api/tiktok?link=https://vm.tiktok.com/ZMSFoFhES/&apikey=SuaKey">tiktokdl</a>
+    </div>
+    <div class="menu-category" onclick="toggleSubmenu('plaqs')">Plaquinhas</div>
+    <div class="submenu" id="plaqs">
+      <a href="/api/plaq1?apikey=SuaApiKey&texto=TexT">Plaq 1</a>
+      <a href="/api/plaq2?apikey=SuaApiKey&texto=TexT">Plaq 2</a>
+      <a href="/api/plaq3?apikey=SuaApiKey&texto=TexT">Plaq 3</a>
+      <a href="/api/plaq4?apikey=SuaApiKey&texto=TexT">Plaq 4</a>
+      <a href="/api/plaq5?apikey=SuaApiKey&texto=TexT">Plaq 5</a>
+      <a href="/api/plaq6?apikey=SuaApiKey&texto=TexT">Plaq 6</a>
+    </div>
+    <div class="menu-category" onclick="toggleSubmenu('ias')">Inteligência IA</div>
+    <div class="submenu" id="ias">
+      <a href="http://localhost:3000/api/gemini?texto=O%20que%20é%20inteligência%20artificial&apikey=suachave123">Gemini 2.0</a>
+         <a href="/api/google-image?nome=naruto&apikey=SuaKey">Gimage</a>
+    </div>
+    <div class="menu-category" onclick="toggleSubmenu('extras')">Especiais</div>
+    <div class="submenu" id="extras">
+      <a href="/api/signo?signo=touro&apikey=SuaKey">Signo Horóscopo</a>
+      <a href="/api/anime?nome=jujutsu&apikey=SuaKey">Pesquisar Animes</a>
+    <a href="/api/piada?apikey=SuaKey">Piadas</a>
+    <a href="http://localhost:3000/api/motivacional?apikey=SuaKey">Motivacional</a>
+    <a href="/api/clima?cidade=sao%20paulo&apikey=SuaKey">Clima Temporal</a>
+    <a href="/api/cachorro?apikey=SuaKey">img Dog</a>
+    <a href="/api/raposa?apikey=sua_chave_aqui">Clima Temporal</a>
+    <a href="/api/cachorro?apikey=SuaKey">img Fox</a>
+    <a href="/api/gato?apikey=SUA_KEY">Clima Temporal</a>
+    <a href="/api/cachorro?apikey=SuaKey">img Gato</a>
+      </div>
+  </div>
+
+  <main>
+    <div class="card">
+      <div class="card-header">
+        <i class="fas fa-network-wired icon"></i>
+        <h2>Seu IP</h2>
+      </div>
+      <p class="description" id="ip-address">Carregando...</p>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <i class="fas fa-key icon"></i>
+        <h2>Comprar Chave</h2>
+      </div>
+      <p class="description"></p>
+      <a class="btn" href="/planos">Ir para Loja</a>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <i class="fas fa-shield-alt icon"></i>
+        <h2>Verificar Key</h2>
+      </div>
+      <form id="key-form">
+        <input class="form-control" type="text" name="apikey" placeholder="Insira sua chave" required />
+        <button type="submit" class="btn">Verificar</button>
+      </form>
+      <p id="api-status" class="description"></p>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Nebby API | Todos os direitos reservados</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('sidebar').classList.toggle('show');
+    }
+
+    function toggleSubmenu(id) {
+      document.getElementById(id).classList.toggle('show');
+    }
+
+    document.getElementById('key-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const apikey = event.target.apikey.value;
+      const apiStatus = document.getElementById('api-status');
+
+      fetch(`/api/keyerrada?apikey=${apikey}`)
+        .then(res => res.json())
+        .then(data => {
+          apiStatus.style.color = '#2e8b57';
+          apiStatus.innerText = data.key;
+        })
+        .catch(() => {
+          apiStatus.style.color = '#ff5555';
+          apiStatus.innerText = 'Erro ao verificar. Tente novamente.';
+        });
+    });
+
+    window.onload = function() {
+      fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('ip-address').innerText = data.ip;
+        });
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Jogo da Velha vs Bot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      color: #2e8b57;
+      font-size: 3rem;
+      margin-bottom: 30px;
+    }
+
+    .tabuleiro {
+      display: grid;
+      grid-template-columns: repeat(3, 150px);
+      grid-template-rows: repeat(3, 150px);
+      gap: 10px;
+    }
+
+    .celula {
+      background: #222;
+      border: 3px solid #2e8b57;
+      font-size: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s;
+    }
+
+    .celula:hover {
+      background: #2e8b57;
+    }
+
+    .vencedor {
+      margin-top: 30px;
+      font-size: 1.8rem;
+      color: #2e8b57;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 15px 30px;
+      background: #2e8b57;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #3cb371;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Jogo da Velha vs Bot</h1>
+  <div class="tabuleiro" id="tabuleiro">
+    <div class="celula" data-index="0"></div>
+    <div class="celula" data-index="1"></div>
+    <div class="celula" data-index="2"></div>
+    <div class="celula" data-index="3"></div>
+    <div class="celula" data-index="4"></div>
+    <div class="celula" data-index="5"></div>
+    <div class="celula" data-index="6"></div>
+    <div class="celula" data-index="7"></div>
+    <div class="celula" data-index="8"></div>
+  </div>
+  <div class="vencedor" id="mensagem"></div>
+  <button onclick="reiniciar()">Reiniciar</button>
+
+  <script>
+    const celulas = document.querySelectorAll('.celula');
+    const mensagem = document.getElementById('mensagem');
+    let jogador = 'X';
+    let bot = 'O';
+    let tabuleiro = ['', '', '', '', '', '', '', '', ''];
+    let fimDeJogo = false;
+
+    const combinacoes = [
+      [0, 1, 2], [3, 4, 5], [6, 7, 8],
+      [0, 3, 6], [1, 4, 7], [2, 5, 8],
+      [0, 4, 8], [2, 4, 6]
+    ];
+
+    function checarVitoria() {
+      for (const combo of combinacoes) {
+        const [a, b, c] = combo;
+        if (tabuleiro[a] && tabuleiro[a] === tabuleiro[b] && tabuleiro[a] === tabuleiro[c]) {
+          fimDeJogo = true;
+          mensagem.textContent = `Jogador ${tabuleiro[a]} venceu!`;
+          return true;
+        }
+      }
+
+      if (!tabuleiro.includes('')) {
+        fimDeJogo = true;
+        mensagem.textContent = 'Empate!';
+        return true;
+      }
+      return false;
+    }
+
+    function botJoga() {
+      if (fimDeJogo) return;
+      let vazias = tabuleiro
+        .map((v, i) => (v === '' ? i : null))
+        .filter(v => v !== null);
+      if (vazias.length === 0) return;
+
+      let escolha = vazias[Math.floor(Math.random() * vazias.length)];
+      tabuleiro[escolha] = bot;
+      celulas[escolha].textContent = bot;
+      checarVitoria();
+    }
+
+    function clique(event) {
+      const index = event.target.dataset.index;
+      if (tabuleiro[index] !== '' || fimDeJogo) return;
+
+      tabuleiro[index] = jogador;
+      event.target.textContent = jogador;
+
+      if (!checarVitoria()) {
+        setTimeout(botJoga, 400);
+      }
+    }
+
+    function reiniciar() {
+      tabuleiro = ['', '', '', '', '', '', '', '', ''];
+      fimDeJogo = false;
+      mensagem.textContent = '';
+      celulas.forEach(c => c.textContent = '');
+    }
+
+    celulas.forEach(c => c.addEventListener('click', clique));
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login e Registro - Nebby</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #0b0b0b;
+      color: #eee;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: #121212;
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(46, 139, 87, 0.7);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      color: #2e8b57;
+      font-weight: 700;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      padding: 12px 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: #222;
+      color: #eee;
+      outline: none;
+      transition: background 0.3s ease;
+    }
+
+    input:focus {
+      background: #2e8b57;
+      color: #fff;
+    }
+
+    button {
+      background: #2e8b57;
+      color: #fff;
+      border: none;
+      padding: 14px;
+      font-size: 1.1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #246b45;
+    }
+
+    .toggle-link {
+      color: #2e8b57;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 0.95rem;
+    }
+
+    .message {
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: #f44336; /* vermelho para erro */
+      min-height: 24px;
+    }
+
+    .success {
+      color: #4caf50;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 id="form-title">Login</h1>
+
+    <div class="message" id="message"></div>
+
+    <form id="login-form">
+      <input type="text" id="login-username" placeholder="Usuário" required />
+      <input type="password" id="login-password" placeholder="Senha" required />
+      <button type="submit">Entrar</button>
+    </form>
+
+    <form id="register-form" style="display:none;">
+      <input type="text" id="register-username" placeholder="Usuário" required />
+      <input type="password" id="register-password" placeholder="Senha" required minlength="6" />
+      <button type="submit">Registrar</button>
+    </form>
+
+    <div>
+      <span id="toggle-text">Não tem conta? </span>
+      <span class="toggle-link" id="toggle-link">Registrar</span>
+    </div>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const toggleLink = document.getElementById('toggle-link');
+    const toggleText = document.getElementById('toggle-text');
+    const formTitle = document.getElementById('form-title');
+    const messageEl = document.getElementById('message');
+
+    toggleLink.addEventListener('click', () => {
+      if (loginForm.style.display === 'none') {
+        loginForm.style.display = 'flex';
+        registerForm.style.display = 'none';
+        formTitle.textContent = 'Login';
+        toggleText.textContent = 'Não tem conta? ';
+        toggleLink.textContent = 'Registrar';
+        messageEl.textContent = '';
+        messageEl.className = 'message';
+      } else {
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'flex';
+        formTitle.textContent = 'Registrar';
+        toggleText.textContent = 'Já tem conta? ';
+        toggleLink.textContent = 'Entrar';
+        messageEl.textContent = '';
+        messageEl.className = 'message';
+      }
+    });
+
+    function saveUser(username, password) {
+      const users = JSON.parse(localStorage.getItem('users')) || {};
+      users[username] = password;
+      localStorage.setItem('users', JSON.stringify(users));
+    }
+
+    function checkUser(username, password) {
+      const users = JSON.parse(localStorage.getItem('users')) || {};
+      return users[username] === password;
+    }
+
+    registerForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const username = document.getElementById('register-username').value.trim();
+      const password = document.getElementById('register-password').value;
+
+      if (username.length < 3) {
+        messageEl.textContent = 'O usuário deve ter ao menos 3 caracteres.';
+        messageEl.className = 'message';
+        return;
+      }
+
+      if (password.length < 6) {
+        messageEl.textContent = 'A senha deve ter ao menos 6 caracteres.';
+        messageEl.className = 'message';
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem('users')) || {};
+      if (users[username]) {
+        messageEl.textContent = 'Usuário já existe.';
+        messageEl.className = 'message';
+        return;
+      }
+
+      saveUser(username, password);
+      messageEl.textContent = 'Registrado com sucesso! Agora faça login.';
+      messageEl.className = 'message success';
+
+      setTimeout(() => {
+        toggleLink.click();
+      }, 1500);
+    });
+
+    loginForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const username = document.getElementById('login-username').value.trim();
+      const password = document.getElementById('login-password').value;
+
+      if (checkUser(username, password)) {
+        messageEl.textContent = `Bem-vindo, ${username}! Login realizado com sucesso.`;
+        messageEl.className = 'message success';
+
+        // Redireciona para docs.html após 1s
+        setTimeout(() => {
+          window.location.href = '/docs';
+        }, 1000);
+
+      } else {
+        messageEl.textContent = 'Usuário ou senha incorretos.';
+        messageEl.className = 'message';
+      }
+    });
+  </script>
+
+</body>
+</html>

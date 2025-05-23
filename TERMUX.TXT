@@ -1,0 +1,11 @@
+para liga a api basta dar um [ node index.js ]
+
+http://localhost:5000/
+
+base de api simples de express criado pelo GojoDevs
+
+aproveita muito a base com muita carinho 😉 do GojoDevs hehehe 
+
+segue nosso cannal novo no zap zap ❤️
+
+https://whatsapp.com/channel/0029Vb1paY9EFeXkmvBeQ129

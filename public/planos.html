@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nebby API - Planos</title>
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --card: #121212;
+      --text: #ffffff;
+      --accent: #2e8b57; /* Verde marinho */
+      --accent-hover: #246b45; /* Tom um pouco mais escuro para hover */
+      --muted: #aaaaaa;
+      --shadow: 0 4px 20px rgba(46, 139, 87, 0.25);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      font-family: 'Segoe UI', sans-serif;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    header {
+      margin-bottom: 50px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      color: var(--accent);
+      letter-spacing: 1px;
+    }
+
+    .plans {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 30px;
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .plan {
+      background: var(--card);
+      border: 1px solid #1f1f1f;
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.02);
+    }
+
+    .plan:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow);
+    }
+
+    .plan h2 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+
+    .plan ul {
+      list-style: none;
+      margin-bottom: 25px;
+    }
+
+    .plan ul li {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .plan button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      font-weight: bold;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .plan button:hover {
+      background: var(--accent-hover);
+      transform: scale(1.03);
+    }
+
+    footer {
+      margin-top: 60px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    audio {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Nebby API - Planos</h1>
+  </header>
+
+  <section class="plans">
+    <div class="plan">
+      <h2>1000 Requests</h2>
+      <ul><li>R$ 1,00</li></ul>
+      <button onclick="window.location.href='https://wa.me/557791009651?text=Quero%201000%20requests'">Adquirir</button>
+    </div>
+
+    <div class="plan">
+      <h2>5000 Requests</h2>
+      <ul><li>R$ 2,00</li></ul>
+      <button onclick="window.location.href='https://wa.me/557791009651?text=Quero%205000%20requests'">Adquirir</button>
+    </div>
+
+    <div class="plan">
+      <h2>10000 Requests</h2>
+      <ul><li>R$ 3,00</li></ul>
+      <button onclick="window.location.href='https://wa.me/557791009651?text=Quero%2010000%20requests'">Adquirir</button>
+    </div>
+
+    <div class="plan">
+      <h2>PATROCINAR</h2>
+      <ul>
+        <li>+1 VIP</li>
+        <li>5K Requests</li>
+        <li>R$ 4,00</li>
+      </ul>
+      <button onclick="window.location.href='https://wa.me/557791009651?text=Quero%20ser%20patrocinador'">Adquirir</button>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Nebby API - Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>
