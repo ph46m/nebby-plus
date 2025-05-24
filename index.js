@@ -1198,26 +1198,49 @@ app.get('/api/print-site', async (req, res) => {
     const apikey = req.query.apikey;
 
     if (!link || !apikey) {
-        return res.status(400).json({ status: false, mensagem: 'Parâmetros "link" e "apikey" são obrigatórios.' });
+        return res.status(400).json({
+            status: false,
+            mensagem: 'Parâmetros "link" e "apikey" são obrigatórios.'
+        });
     }
 
     try {
-        const response = await fetch(`https://kamuiapi.shop/api/ferramenta/print?link=${encodeURIComponent(link)}&apikey=${apikey}`);
-        const data = await response.json();
+        const apiUrl = `https://kamuiapi.shop/api/ferramenta/print?link=${encodeURIComponent(link)}&apikey=dantes15s`;
+        const response = await fetch(apiUrl);
 
-        if (!data.status || !data.resultado) {
-            console.error('Erro da API externa:', data);
-            return res.status(500).json({ status: false, mensagem: data.mensagem || 'Erro ao capturar o print da página.' });
+        // Verifica se a resposta da API está OK (status HTTP 200-299)
+        if (!response.ok) {
+            const errText = await response.text();
+            console.error('Erro na resposta da API externa:', errText);
+            return res.status(502).json({
+                status: false,
+                mensagem: 'Erro na comunicação com a API externa.'
+            });
         }
 
-        res.json({
-            "status": true,
-            "imagem": data.resultado
+        const data = await response.json();
+
+        // Validação dos dados retornados pela API
+        if (!data.status || !data.resultado) {
+            console.error('Resposta inválida da API externa:', data);
+            return res.status(500).json({
+                status: false,
+                mensagem: data.mensagem || 'Erro ao capturar o print da página.'
+            });
+        }
+
+        // Sucesso
+        return res.json({
+            status: true,
+            imagem: data.resultado
         });
 
     } catch (error) {
-        console.error('Erro na rota /api/print-site:', error);
-        res.status(500).json({ status: false, mensagem: 'Erro interno ao capturar o print.' });
+        console.error('Erro no try/catch da rota /api/print-site:', error.message);
+        return res.status(500).json({
+            status: false,
+            mensagem: 'Erro interno ao capturar o print.'
+        });
     }
 });
 
