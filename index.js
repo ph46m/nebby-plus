@@ -1,6 +1,6 @@
 //site de api desenvolvido pelo GojoDevs 
 //todos credito restrito para o GojoDevs
-//Se for posta a base deixa os créditos ✔️
+//Se for posta a base deixa os crÃ©ditos âœ”ï¸
 const express = require('express');
 const fetch = require('node-fetch');
 var fs = require('fs')
@@ -8,7 +8,7 @@ var fs = require('fs')
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Rotas espec��ficas
+// Rotas espec¨ªficas
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -59,14 +59,14 @@ app.get('/api/keyerrada',(req, res) => {
     apikey = req.query.apikey;
     var ITC = key.map(i => i?.apikey)?.indexOf(apikey);
     if(ITC < 0) {
-    return res.json({key:'Sua apikey é invalida Ou acabou as requets'})
-    } else {return res.json({key:`Sua ApiKey está 100% �? - Requests Restantes: ${key[ITC]?.request}`})}})
+    return res.json({key:'Sua apikey Ã© invalida Ou acabou as requets'})
+    } else {return res.json({key:`Sua ApiKey estÃ¡ 100% âœ? - Requests Restantes: ${key[ITC]?.request}`})}})
     
 
-// Função para carregar as chaves existentes do arquivo JSON
-let keys = []; // Variável global para armazenar as chaves
+// FunÃ§Ã£o para carregar as chaves existentes do arquivo JSON
+let keys = []; // VariÃ¡vel global para armazenar as chaves
 
-// Função para carregar as chaves existentes do arquivo JSON
+// FunÃ§Ã£o para carregar as chaves existentes do arquivo JSON
 function loadKeys() {
     const filePath = path.join(__dirname, 'lib', 'DarkApi', 'keys.json');
     if (fs.existsSync(filePath)) {
@@ -78,10 +78,10 @@ function loadKeys() {
             return []; // Retorna um array vazio em caso de erro
         }
     }
-    return []; // Retorna um array vazio se o arquivo não existir
+    return []; // Retorna um array vazio se o arquivo nÃ£o existir
 }
 
-// Função para salvar as chaves no arquivo JSON
+// FunÃ§Ã£o para salvar as chaves no arquivo JSON
 function saveKeys(keys) {
     const filePath = path.join(__dirname, 'lib', 'DarkApi', 'keys.json');
     try {
@@ -99,18 +99,18 @@ keys = loadKeys();
 app.use(express.json());
 
 app.get('/api/add-key', (req, res) => {
-    console.log(req.query); // Para depuração
+    console.log(req.query); // Para depuraÃ§Ã£o
     let a = req.query.a;
 
     if (!a) {
-        return res.json({ resultado: "Parâmetro 'a' é obrigatório" });
+        return res.json({ resultado: "ParÃ¢metro 'a' Ã© obrigatÃ³rio" });
     }
 
     var [apikey, senha, rq] = a.split("|");
     var senhaofc = "0310";
 
     if (senha !== senhaofc) {
-        return res.json({ resultado: "Senha inválida.." });
+        return res.json({ resultado: "Senha invÃ¡lida.." });
     }
 
     if (!apikey) {
@@ -118,11 +118,11 @@ app.get('/api/add-key', (req, res) => {
     }
 
     if (keys.map(i => i.apikey).includes(apikey)) {
-        return res.json({ resultado: "Essa key já está inclusa dentro do sistema.." });
+        return res.json({ resultado: "Essa key jÃ¡ estÃ¡ inclusa dentro do sistema.." });
     } else {
         const requestCount = Number(rq);
         if (isNaN(requestCount) || requestCount <= 0) {
-            return res.json({ resultado: "O número de requisições deve ser um número válido e maior que zero." });
+            return res.json({ resultado: "O nÃºmero de requisiÃ§Ãµes deve ser um nÃºmero vÃ¡lido e maior que zero." });
         }
 
         keys.push({ apikey: apikey, request: requestCount });
@@ -130,7 +130,7 @@ app.get('/api/add-key', (req, res) => {
 
         var ITC = keys.findIndex(i => i.apikey === apikey);
         return res.json({
-            resultado: `ApiKey: dantes15s Foi Adicionada ao Sistema\n🚀\n\nNúmero de Requisições Disponíveis: ${keys[ITC]?.request}`
+            resultado: `ApiKey: dantes15s Foi Adicionada ao Sistema\nðŸš€\n\nNÃºmero de RequisiÃ§Ãµes DisponÃ­veis: ${keys[ITC]?.request}`
         });
     }
 });
@@ -150,11 +150,11 @@ app.get('/api/del-key', (req, res) => {
     }
 
     if (senha !== senhaofc) {
-        return res.json({ msg: "Senha inválida.." });
+        return res.json({ msg: "Senha invÃ¡lida.." });
     }
 
     if (!keys.map(i => i.apikey).includes(apikey)) {
-        return res.json({ msg: "Essa key não está inclusa.." });
+        return res.json({ msg: "Essa key nÃ£o estÃ¡ inclusa.." });
     } else {
         var i2 = keys.map(i => i.apikey).indexOf(apikey);
         keys.splice(i2, 1); // Remove a chave da lista
@@ -170,7 +170,7 @@ app.get('/api/pinterest', async (req, res) => {
     var apikey = req.query.apikey;
 
     if (!q || !apikey) {
-        return res.json({ status: false, resultado: 'Parâmetros faltando: q e apikey são necessários.' });
+        return res.json({ status: false, resultado: 'ParÃ¢metros faltando: q e apikey sÃ£o necessÃ¡rios.' });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
@@ -205,7 +205,7 @@ app.get('/api/tiktok-src', async (req, res) => {
     var apikey = req.query.apikey;
 
     if (!q || !apikey) {
-        return res.json({ status: false, resultado: 'Parâmetros faltando: q e apikey são necessários.' });
+        return res.json({ status: false, resultado: 'ParÃ¢metros faltando: q e apikey sÃ£o necessÃ¡rios.' });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
@@ -221,12 +221,12 @@ app.get('/api/tiktok-src', async (req, res) => {
         var texto = data.resultado;
 
         res.json({
-            Criador: "[𝙲𝚑𝚊𝚝] 𝙳𝚊𝚛𝚔-𝚂𝚝𝚊𝚛𝚜",
+            Criador: "[ð™²ðš‘ðšŠðš] ð™³ðšŠðš›ðš”-ðš‚ðšðšŠðš›ðšœ",
             resultado: texto
         });
     } catch (error) {
-        console.error("Erro ao buscar vídeo", error);
-        return res.status(500).json({ error: "Erro ao buscar vídeo, tente novamente mais tarde" });
+        console.error("Erro ao buscar vÃ­deo", error);
+        return res.status(500).json({ error: "Erro ao buscar vÃ­deo, tente novamente mais tarde" });
     }
 });
 
@@ -235,7 +235,7 @@ app.get('/api/instadl/v1', async(req, res) => {
     var apikey = req.query.apikey;
 
     if (!url || !apikey) {
-        return res.json({ status: false, resultado: 'Parâmetros faltando: url e apikey são necessários.' });
+        return res.json({ status: false, resultado: 'ParÃ¢metros faltando: url e apikey sÃ£o necessÃ¡rios.' });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
@@ -253,8 +253,8 @@ app.get('/api/instadl/v1', async(req, res) => {
          var texto = data.resultado
 
          res.json({
-            Criador: "[𝙲𝚑𝚊𝚝] 𝙳𝚊𝚛𝚔-𝚂𝚝𝚊𝚛𝚜",
-            provedor: "[𝙲𝚑𝚊𝚝] 𝙳𝚊𝚛𝚔-𝚂𝚝𝚊𝚛𝚜",
+            Criador: "[ð™²ðš‘ðšŠðš] ð™³ðšŠðš›ðš”-ðš‚ðšðšŠðš›ðšœ",
+            provedor: "[ð™²ðš‘ðšŠðš] ð™³ðšŠðš›ðš”-ðš‚ðšðšŠðš›ðšœ",
             resultado: texto
          })
     } catch (error) {
@@ -270,7 +270,7 @@ app.get('/api/printsite', async (req, res) => {
   if (!q || !apikey) {
     return res.json({
       status: false,
-      resultado: 'Parâmetros faltando: q e apikey são necessários.'
+      resultado: 'ParÃ¢metros faltando: q e apikey sÃ£o necessÃ¡rios.'
     });
   }
 
@@ -297,8 +297,10 @@ app.get('/api/play-audio', async (req, res) => {
     const title = req.query.title;
     const apikey = req.query.apikey;
 
+    res.setHeader('Content-Type', 'application/json; charset=utf-8'); // <- Adicionado aqui
+
     if (!title || !apikey) {
-        return res.status(400).json({ status: false, mensagem: 'Par?metros "title" e "apikey" s?o obrigat��rios.' });
+        return res.status(400).json({ status: false, mensagem: 'Parâmetros "title" e "apikey" são obrigatórios.' });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
@@ -313,7 +315,7 @@ app.get('/api/play-audio', async (req, res) => {
         const musicData = await apiResponse.json();
 
         if (!musicData || !musicData.status || !musicData.Link) {
-            return res.status(404).json({ status: false, mensagem: 'M��sica n?o encontrada.' });
+            return res.status(404).json({ status: false, mensagem: 'Música não encontrada.' });
         }
 
         const { Title, Thumb, Description, Duration, Viewer, Author, Link } = musicData;
@@ -324,16 +326,16 @@ app.get('/api/play-audio', async (req, res) => {
         const audioJson = await audioFetch.json();
 
         if (!audioJson.download?.status || !audioJson.download.downloadLink) {
-            return res.status(500).json({ status: false, mensagem: 'Erro ao obter o link de ��udio.' });
+            return res.status(500).json({ status: false, mensagem: 'Erro ao obter o link de áudio.' });
         }
 
         return res.json({
             Criador: 'ph.46m',
-            "T��tulo": Title,
+            "Título": Title,
             "Autor": Author,
-            "Dura??o": Duration,
-            "Visualiza??es": Viewer,
-            "Descri??o": Description,
+            "Duração": Duration,
+            "Visualizações": Viewer,
+            "Descrição": Description,
             "Capa": Thumb,
             "Canvas": canvasUrl,
             "Link Original": Link,
@@ -342,7 +344,7 @@ app.get('/api/play-audio', async (req, res) => {
 
     } catch (e) {
         console.error("Erro no endpoint /api/play-audio:", e);
-        return res.status(500).json({ status: false, mensagem: 'Erro interno ao buscar m��sica.' });
+        return res.status(500).json({ status: false, mensagem: 'Erro interno ao buscar música.' });
     }
 });
 
@@ -351,7 +353,7 @@ app.get('/api/youtube-mp4', async (req, res) => {
     const apikey = req.query.apikey;
 
     if (!title || !apikey) {
-        return res.json({ status: false, resultado: 'Par?metros faltando: title e apikey s?o necess��rios.' });
+        return res.json({ status: false, resultado: 'Par?metros faltando: title e apikey s?o necess¨¢rios.' });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
@@ -362,17 +364,17 @@ app.get('/api/youtube-mp4', async (req, res) => {
     await loadKeys(apikey, req);
 
     try {
-        // Pesquisa o v��deo pelo t��tulo
+        // Pesquisa o v¨ªdeo pelo t¨ªtulo
         const searchResponse = await fetch(`https://kamuiapi.shop/api/youtube/play?query=${encodeURIComponent(title)}&apikey=dantes15s`);
         const searchResult = await searchResponse.json();
 
         if (!searchResult || !searchResult.status || !searchResult.Link) {
-            return res.status(404).json({ status: false, mensagem: 'V��deo n?o encontrado.' });
+            return res.status(404).json({ status: false, mensagem: 'V¨ªdeo n?o encontrado.' });
         }
 
         const downloadUrl = `https://kamuiapi.shop/api/download/mp4?url=${searchResult.Link}&apikey=dantes15s`;
 
-        // Faz o download do buffer do v��deo
+        // Faz o download do buffer do v¨ªdeo
         const videoResponse = await fetch(downloadUrl);
         const videoBuffer = await videoResponse.buffer();
 
@@ -381,14 +383,14 @@ app.get('/api/youtube-mp4', async (req, res) => {
 
         res.send(videoBuffer);
     } catch (error) {
-        console.error("Erro ao baixar v��deo:", error);
-        res.status(500).json({ status: false, mensagem: 'Erro ao processar o v��deo, tente novamente mais tarde!' });
+        console.error("Erro ao baixar v¨ªdeo:", error);
+        res.status(500).json({ status: false, mensagem: 'Erro ao processar o v¨ªdeo, tente novamente mais tarde!' });
     }
 });
 
 //downloads fim
 
-//plaq começo
+//plaq comeÃ§o
 
 app.get('/api/plaq1', async (req, res) => {
     var texto = req.query.texto;
@@ -399,7 +401,7 @@ app.get('/api/plaq1', async (req, res) => {
     }
 
     if (!apikey) {
-        return res.json({ status: false, resultado: 'Parâmetro apikey são necessários.' });
+        return res.json({ status: false, resultado: 'ParÃ¢metro apikey sÃ£o necessÃ¡rios.' });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
@@ -430,7 +432,7 @@ app.get('/api/plaq2', async (req, res) => {
     }
 
     if (!apikey) {
-        return res.json({ status: false, resultado: 'Parâmetro apikey são necessários.' });
+        return res.json({ status: false, resultado: 'ParÃ¢metro apikey sÃ£o necessÃ¡rios.' });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
@@ -465,7 +467,7 @@ app.get('/api/plaq3', async (req, res) => {
     }
 
     if (!apikey) {
-        return res.json({ status: false, resultado: 'Parâmetro apikey são necessários.' });
+        return res.json({ status: false, resultado: 'ParÃ¢metro apikey sÃ£o necessÃ¡rios.' });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
@@ -500,7 +502,7 @@ app.get('/api/plaq4', async (req, res) => {
     }
 
     if (!apikey) {
-        return res.json({ status: false, resultado: 'Parâmetro apikey são necessários.' });
+        return res.json({ status: false, resultado: 'ParÃ¢metro apikey sÃ£o necessÃ¡rios.' });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
@@ -535,7 +537,7 @@ app.get('/api/plaq5', async (req, res) => {
     }
 
     if (!apikey) {
-        return res.json({ status: false, resultado: 'Parâmetro apikey são necessários.' });
+        return res.json({ status: false, resultado: 'ParÃ¢metro apikey sÃ£o necessÃ¡rios.' });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
@@ -570,7 +572,7 @@ app.get('/api/plaq6', async (req, res) => {
     }
 
     if (!apikey) {
-        return res.json({ status: false, resultado: 'Parâmetro apikey são necessários.' });
+        return res.json({ status: false, resultado: 'ParÃ¢metro apikey sÃ£o necessÃ¡rios.' });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
@@ -607,11 +609,11 @@ app.get('/api/gemini', async (req, res) => {
     var apikey = req.query.apikey;
 
     if (!texto) {
-        return res.status(400).json({ status: false, message: "Cad�� o par?metro texto?" });
+        return res.status(400).json({ status: false, message: "Cad¨º o par?metro texto?" });
     }
 
     if (!apikey) {
-        return res.json({ status: false, resultado: 'Par?metro apikey �� necess��rio.' });
+        return res.json({ status: false, resultado: 'Par?metro apikey ¨¦ necess¨¢rio.' });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
@@ -668,7 +670,7 @@ app.get('/api/figale', async(req, res) => {
     var apikey = req.query.apikey;
 
     if (!apikey) {
-        return res.json({ status: false, resultado: 'Parâmetro apikey são necessários.' });
+        return res.json({ status: false, resultado: 'ParÃ¢metro apikey sÃ£o necessÃ¡rios.' });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
@@ -705,7 +707,7 @@ app.get('/api/print-site/v1', async (req, res) => {
     }
 
     if (!apikey) {
-        return res.json({ status: false, resultado: 'Parâmetro apikey são necessários.' });
+        return res.json({ status: false, resultado: 'ParÃ¢metro apikey sÃ£o necessÃ¡rios.' });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
@@ -743,7 +745,7 @@ app.get('/api/filmes', async (req, res) => {
     }
 
     if (!apikey) {
-        return res.json({ status: false, resultado: 'Parâmetro apikey são necessários.' });
+        return res.json({ status: false, resultado: 'ParÃ¢metro apikey sÃ£o necessÃ¡rios.' });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
@@ -762,8 +764,8 @@ app.get('/api/filmes', async (req, res) => {
         var texto = data.resultado
 
         res.json({ 
-            Criador: "[𝙲𝚑𝚊𝚝] 𝙳𝚊𝚛𝚔-𝚂𝚝𝚊𝚛𝚜",
-            Provedor: "[𝙲𝚑𝚊𝚝] 𝙳𝚊𝚛𝚔-𝚂𝚝𝚊𝚛𝚜",
+            Criador: "[ð™²ðš‘ðšŠðš] ð™³ðšŠðš›ðš”-ðš‚ðšðšŠðš›ðšœ",
+            Provedor: "[ð™²ðš‘ðšŠðš] ð™³ðšŠðš›ðš”-ðš‚ðšðšŠðš›ðšœ",
             resultad: texto
         })
     } catch (error) {
@@ -781,7 +783,7 @@ app.get('/api/wallpaper', async (req, res) =>{
     }
 
     if (!apikey) {
-        return res.json({ status: false, resultado: 'Parâmetro apikey são necessários.' });
+        return res.json({ status: false, resultado: 'ParÃ¢metro apikey sÃ£o necessÃ¡rios.' });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
@@ -801,7 +803,7 @@ app.get('/api/wallpaper', async (req, res) =>{
 
         res.json({
 
-            Criador: "[𝙲𝚑𝚊𝚝] 𝙳𝚊𝚛𝚔-𝚂𝚝𝚊𝚛𝚜",
+            Criador: "[ð™²ðš‘ðšŠðš] ð™³ðšŠðš›ðš”-ðš‚ðšðšŠðš›ðšœ",
             resultados: imagens
 
         })
@@ -820,7 +822,7 @@ app.get('/api/dicionario', async (req, res) => {
     }
 
     if (!apikey) {
-        return res.json({ status: false, resultado: 'Parâmetro apikey são necessários.' });
+        return res.json({ status: false, resultado: 'ParÃ¢metro apikey sÃ£o necessÃ¡rios.' });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
@@ -839,7 +841,7 @@ app.get('/api/dicionario', async (req, res) => {
         var texto = data.resultado
 
         res.json({
-            Criador: "[𝙲𝚑𝚊𝚝] 𝙳𝚊𝚛𝚔-𝚂𝚝𝚊𝚛𝚜",
+            Criador: "[ð™²ðš‘ðšŠðš] ð™³ðšŠðš›ðš”-ðš‚ðšðšŠðš›ðšœ",
             resultado: texto
         })
 
@@ -858,7 +860,7 @@ app.get('/api/pensador', async (req, res) => {
     }
 
     if (!apikey) {
-        return res.json({ status: false, resultado: 'Parâmetro apikey são necessários.' });
+        return res.json({ status: false, resultado: 'ParÃ¢metro apikey sÃ£o necessÃ¡rios.' });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
@@ -875,8 +877,8 @@ app.get('/api/pensador', async (req, res) => {
         var texto = data.resultado
 
         res.json({
-            Criador: "[𝙲𝚑𝚊𝚝] 𝙳𝚊𝚛𝚔-𝚂𝚝𝚊𝚛𝚜",
-            Provedor: "[𝙲𝚑𝚊𝚝] 𝙳𝚊𝚛𝚔-𝚂𝚝𝚊𝚛𝚜",
+            Criador: "[ð™²ðš‘ðšŠðš] ð™³ðšŠðš›ðš”-ðš‚ðšðšŠðš›ðšœ",
+            Provedor: "[ð™²ðš‘ðšŠðš] ð™³ðšŠðš›ðš”-ðš‚ðšðšŠðš›ðšœ",
             resultado: texto
         })
     } catch (error) {
@@ -892,7 +894,7 @@ app.get('/api/signo', async (req, res) => {
     if (!signo || !apikey) {
         return res.status(400).json({
             status: false,
-            mensagem: 'Par?metros "signo" e "apikey" s?o obrigat��rios.'
+            mensagem: 'Par?metros "signo" e "apikey" s?o obrigat¨®rios.'
         });
     }
 
@@ -938,7 +940,7 @@ app.get('/api/tiktok', async (req, res) => {
     if (!link || !apikey) {
         return res.status(400).json({
             status: false,
-            mensagem: 'Par?metros "link" e "apikey" s?o obrigat��rios.'
+            mensagem: 'Par?metros "link" e "apikey" s?o obrigat¨®rios.'
         });
     }
 
@@ -964,7 +966,7 @@ app.get('/api/tiktok', async (req, res) => {
         if (!json || !json.resultado || !json.resultado.data || !json.resultado.data.play) {
             return res.status(404).json({
                 status: false,
-                mensagem: 'N?o foi poss��vel baixar o v��deo.'
+                mensagem: 'N?o foi poss¨ªvel baixar o v¨ªdeo.'
             });
         }
 
@@ -973,14 +975,14 @@ app.get('/api/tiktok', async (req, res) => {
             status: true,
             video: json.resultado.data.play,
             thumb: json.resultado.data.cover || null,
-            titulo: json.resultado.data.title || 'Sem t��tulo'
+            titulo: json.resultado.data.title || 'Sem t¨ªtulo'
         });
 
     } catch (error) {
-        console.error("Erro ao baixar v��deo do TikTok:", error);
+        console.error("Erro ao baixar v¨ªdeo do TikTok:", error);
         res.status(500).json({
             status: false,
-            mensagem: 'Erro ao processar o v��deo.'
+            mensagem: 'Erro ao processar o v¨ªdeo.'
         });
     }
 });
@@ -1012,10 +1014,10 @@ app.get('/api/anime', async (req, res) => {
         res.json({
             status: true,
             resultado: {
-                "t��tulo": anime.title,
-                "t��tulo_japon��s": anime.title_japanese,
+                "t¨ªtulo": anime.title,
+                "t¨ªtulo_japon¨ºs": anime.title_japanese,
                 "sinopse": anime.synopsis,
-                "epis��dios": anime.episodes,
+                "epis¨®dios": anime.episodes,
                 "status_exibi??o": anime.status,
                 "nota": anime.score,
                 "imagem": anime.images.jpg.large_image_url,
@@ -1031,7 +1033,7 @@ app.get('/api/anime', async (req, res) => {
 
 app.get('/api/motivacional', async (req, res) => {
     const { apikey } = req.query;
-    if (!apikey) return res.status(400).json({ status: false, mensagem: 'Par?metro apikey obrigat��rio.' });
+    if (!apikey) return res.status(400).json({ status: false, mensagem: 'Par?metro apikey obrigat¨®rio.' });
 
     const apiKeyData = key.find(i => i.apikey === apikey);
     if (!apiKeyData || apiKeyData.request <= 0) return res.sendFile(path.join(__dirname, "./public", "apikey.html"));
@@ -1040,12 +1042,12 @@ app.get('/api/motivacional', async (req, res) => {
 
     try {
         const frases = [
-            "Voc�� �� mais forte do que imagina.",
+            "Voc¨º ¨¦ mais forte do que imagina.",
             "Nunca desista dos seus sonhos.",
             "O sucesso come?a com a determina??o.",
-            "Voc�� pode tudo o que quiser. Acredite!",
+            "Voc¨º pode tudo o que quiser. Acredite!",
             "Mesmo devagar, n?o pare de andar.",
-                        "nunca desisti dos seus sonhos por que um dia voc�� pode chegar at�� seu destino",
+                        "nunca desisti dos seus sonhos por que um dia voc¨º pode chegar at¨¦ seu destino",
         ];
 
         const escolhida = frases[Math.floor(Math.random() * frases.length)];
@@ -1057,7 +1059,7 @@ app.get('/api/motivacional', async (req, res) => {
 
 app.get('/api/piada', async (req, res) => {
     const { apikey } = req.query;
-    if (!apikey) return res.status(400).json({ status: false, mensagem: 'Par?metro apikey obrigat��rio.' });
+    if (!apikey) return res.status(400).json({ status: false, mensagem: 'Par?metro apikey obrigat¨®rio.' });
 
     const apiKeyData = key.find(i => i.apikey === apikey);
     if (!apiKeyData || apiKeyData.request <= 0) return res.sendFile(path.join(__dirname, "./public", "apikey.html"));
@@ -1080,7 +1082,7 @@ app.get('/api/piada', async (req, res) => {
 
 app.get('/api/clima', async (req, res) => {
     const { cidade, apikey } = req.query;
-    if (!cidade || !apikey) return res.status(400).json({ status: false, mensagem: 'Par?metros cidade e apikey s?o obrigat��rios.' });
+    if (!cidade || !apikey) return res.status(400).json({ status: false, mensagem: 'Par?metros cidade e apikey s?o obrigat¨®rios.' });
 
     const apiKeyData = key.find(i => i.apikey === apikey);
     if (!apiKeyData || apiKeyData.request <= 0) return res.sendFile(path.join(__dirname, "./public", "apikey.html"));
@@ -1097,9 +1099,9 @@ app.get('/api/clima', async (req, res) => {
             status: true,
             resultado: {
                 "local": `${data.location.name}, ${data.location.region} - ${data.location.country}`,
-                "temperatura": `${data.current.temp_c}��C`,
+                "temperatura": `${data.current.temp_c}¡ãC`,
                 "condi??o": data.current.condition.text,
-                "��cone": data.current.condition.icon,
+                "¨ªcone": data.current.condition.icon,
                 "vento": `${data.current.wind_kph} km/h`,
                 "umidade": `${data.current.humidity}%`
             }
@@ -1111,7 +1113,7 @@ app.get('/api/clima', async (req, res) => {
 
 app.get('/api/cachorro', async (req, res) => {
     const apikey = req.query.apikey;
-    if (!apikey) return res.json({ status: false, message: 'Par?metro apikey �� obrigat��rio.' });
+    if (!apikey) return res.json({ status: false, message: 'Par?metro apikey ¨¦ obrigat¨®rio.' });
 
     const apiKeyData = key.find(i => i.apikey === apikey);
     if (!apiKeyData || apiKeyData.request <= 0) {
@@ -1131,7 +1133,7 @@ app.get('/api/cachorro', async (req, res) => {
 
 app.get('/api/raposa', async (req, res) => {
     const apikey = req.query.apikey;
-    if (!apikey) return res.json({ status: false, mensagem: "Par?metro 'apikey' �� obrigat��rio." });
+    if (!apikey) return res.json({ status: false, mensagem: "Par?metro 'apikey' ¨¦ obrigat¨®rio." });
 
     const apiKeyData = key.find(i => i.apikey === apikey);
     if (!apiKeyData || apiKeyData.request <= 0) {
@@ -1157,7 +1159,7 @@ app.get('/api/raposa', async (req, res) => {
 
 app.get('/api/gato', async (req, res) => {
     const apikey = req.query.apikey;
-    if (!apikey) return res.json({ status: false, message: 'Par?metro apikey �� obrigat��rio.' });
+    if (!apikey) return res.json({ status: false, message: 'Par?metro apikey ¨¦ obrigat¨®rio.' });
 
     const apiKeyData = key.find(i => i.apikey === apikey);
     if (!apiKeyData || apiKeyData.request <= 0) {
@@ -1180,7 +1182,7 @@ app.get('/api/google-image', async (req, res) => {
     const apikey = req.query.apikey;
 
     if (!nome || !apikey) {
-        return res.json({ status: false, resultado: 'Par?metros faltando: nome e apikey s?o necess��rios.' });
+        return res.json({ status: false, resultado: 'Par?metros faltando: nome e apikey s?o necess¨¢rios.' });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
