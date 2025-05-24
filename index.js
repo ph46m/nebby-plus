@@ -270,12 +270,26 @@ app.get('/api/play-audio', async (req, res) => {
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
 
     if (!title || !apikey) {
-        return res.status(400).json({ status: false, mensagem: 'Parâmetros "title" e "apikey" são obrigatórios.' });
+        return res.status(400).json({
+            status: false,
+            mensagem: 'Parâmetros "title" e "apikey" são obrigatórios.'
+        });
     }
 
     const apiKeyData = key.find(i => i.apikey === apikey);
-    if (!apiKeyData || apiKeyData.request <= 0) {
-        return res.sendFile(path.join(__dirname, "./public", "apikey.html"));
+
+    if (!apiKeyData) {
+        return res.status(403).json({
+            status: false,
+            mensagem: 'API Key inválida ou inexistente.'
+        });
+    }
+
+    if (apiKeyData.request <= 0) {
+        return res.status(429).json({
+            status: false,
+            mensagem: 'Limite de requisições atingido para esta API Key.'
+        });
     }
 
     await loadKeys(apikey, req);
@@ -285,14 +299,20 @@ app.get('/api/play-audio', async (req, res) => {
         const ytData = await ytRes.json();
 
         if (!ytData || !ytData.status || !ytData.Link) {
-            return res.status(404).json({ status: false, mensagem: 'Música não encontrada.' });
+            return res.status(404).json({
+                status: false,
+                mensagem: 'Música não encontrada.'
+            });
         }
 
         const audioRes = await fetch(`https://kamuiapi.shop/api/download/mp3?url=${encodeURIComponent(ytData.Link)}&apikey=dantes15s`);
         const audioData = await audioRes.json();
 
         if (!audioData.download?.status || !audioData.download.downloadLink) {
-            return res.status(500).json({ status: false, mensagem: 'Erro ao obter o link de áudio.' });
+            return res.status(500).json({
+                status: false,
+                mensagem: 'Erro ao obter o link de áudio.'
+            });
         }
 
         return res.json({
@@ -302,10 +322,12 @@ app.get('/api/play-audio', async (req, res) => {
 
     } catch (e) {
         console.error("Erro no endpoint /api/play-audio:", e);
-        return res.status(500).json({ status: false, mensagem: 'Erro interno ao buscar música.' });
+        return res.status(500).json({
+            status: false,
+            mensagem: 'Erro interno ao buscar música.'
+        });
     }
 });
-
 
 app.get('/api/youtube-mp4', async (req, res) => {
     const title = req.query.title;
