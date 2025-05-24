@@ -1193,20 +1193,21 @@ app.get('/api/google-image', async (req, res) => {
     }
 });
 
-app.get('/api/print-site', async (req, res) => {
+app.get('/print-site', async (req, res) => {
     const link = req.query.link;
     const apikey = req.query.apikey;
 
     if (!link || !apikey) {
-        return res.status(400).json({ status: true, mensagem: 'Parâmetros "link" e "apikey" são obrigatórios.' });
+        return res.status(400).json({ status: false, mensagem: 'Parâmetros "link" e "apikey" são obrigatórios.' });
     }
 
     try {
-        const response = await fetch(`https://kamuiapi.shop/api/ferramenta/print?link=${encodeURIComponent(link)}&apikey=dantes15s`);
+        const response = await fetch(`https://kamuiapi.shop/api/ferramenta/print?link=${encodeURIComponent(link)}&apikey=${apikey}`);
         const data = await response.json();
 
         if (!data.status || !data.resultado) {
-            return res.status(500).json({ status: true, mensagem: 'Erro ao capturar o print da página.' });
+            console.error('Erro da API externa:', data);
+            return res.status(500).json({ status: false, mensagem: data.mensagem || 'Erro ao capturar o print da página.' });
         }
 
         res.json({
@@ -1219,6 +1220,7 @@ app.get('/api/print-site', async (req, res) => {
         res.status(500).json({ status: false, mensagem: 'Erro interno ao capturar o print.' });
     }
 });
+
 
 //fim
 
