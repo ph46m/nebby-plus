@@ -1193,7 +1193,7 @@ app.get('/api/google-image', async (req, res) => {
     }
 });
 
-app.get('/print-site', async (req, res) => {
+app.get('/api/print-site', async (req, res) => {
     const link = req.query.link;
     const apikey = req.query.apikey;
 
