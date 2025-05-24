@@ -1210,8 +1210,8 @@ app.get('/api/print-site', async (req, res) => {
         }
 
         res.json({
-            status: true,
-            imagem: data.resultado
+            "status": true,
+            "imagem": data.resultado
         });
 
     } catch (error) {
