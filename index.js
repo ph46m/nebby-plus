@@ -263,41 +263,11 @@ app.get('/api/instadl/v1', async(req, res) => {
     }
 })
 
-app.get('/api/printsite', async (req, res) => {
-  const q = req.query.q;
-  const apikey = req.query.apikey;
-
-  if (!q || !apikey) {
-    return res.json({
-      status: false,
-      resultado: 'ParÃ¢metros faltando: q e apikey sÃ£o necessÃ¡rios.'
-    });
-  }
-
-  const apiKeyData = key.find(i => i.apikey === apikey);
-
-  if (!apiKeyData || apiKeyData.request <= 0) {
-    return res.sendFile(path.join(__dirname, 'public', 'apikey.html'));
-  }
-
-  try {
-    let response = await fetch(`https://api.nexfuture.com.br/api/outros/printsite?url=${q}`);
-    if (!response.ok) {
-      throw new Error(`Erro na API externa: ${response.statusText}`);
-    }
-    let dados = await response.json();
-    res.json(dados);
-  } catch (error) {
-    console.error("Erro ao buscar os dados:", error);
-    res.status(500).json({ error: "Erro ao processar os dados, tente novamente mais tarde." });
-  }
-});
-
 app.get('/api/play-audio', async (req, res) => {
     const title = req.query.title;
     const apikey = req.query.apikey;
 
-    res.setHeader('Content-Type', 'application/json; charset=utf-8'); // <- Adicionado aqui
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
 
     if (!title || !apikey) {
         return res.status(400).json({ status: false, mensagem: 'Parâmetros "title" e "apikey" são obrigatórios.' });
@@ -311,35 +281,23 @@ app.get('/api/play-audio', async (req, res) => {
     await loadKeys(apikey, req);
 
     try {
-        const apiResponse = await fetch(`https://kamuiapi.shop/api/youtube/play?query=${encodeURIComponent(title)}&apikey=dantes15s`);
-        const musicData = await apiResponse.json();
+        const ytRes = await fetch(`https://kamuiapi.shop/api/youtube/play?query=${encodeURIComponent(title)}&apikey=dantes15s`);
+        const ytData = await ytRes.json();
 
-        if (!musicData || !musicData.status || !musicData.Link) {
+        if (!ytData || !ytData.status || !ytData.Link) {
             return res.status(404).json({ status: false, mensagem: 'Música não encontrada.' });
         }
 
-        const { Title, Thumb, Description, Duration, Viewer, Author, Link } = musicData;
+        const audioRes = await fetch(`https://kamuiapi.shop/api/download/mp3?url=${encodeURIComponent(ytData.Link)}&apikey=dantes15s`);
+        const audioData = await audioRes.json();
 
-        const canvasUrl = `http://nxf-02.nexfuture.com.br:25593/api/canvas/musica?titulo=${encodeURIComponent(Title)}&autor=${encodeURIComponent(Author)}&inicio=0:10&fim=${encodeURIComponent(Duration)}&capa=${encodeURIComponent(Thumb)}&apikey=dantes15s`;
-
-        const audioFetch = await fetch(`https://kamuiapi.shop/api/download/mp3?url=${encodeURIComponent(Link)}&apikey=dantes15s`);
-        const audioJson = await audioFetch.json();
-
-        if (!audioJson.download?.status || !audioJson.download.downloadLink) {
+        if (!audioData.download?.status || !audioData.download.downloadLink) {
             return res.status(500).json({ status: false, mensagem: 'Erro ao obter o link de áudio.' });
         }
 
         return res.json({
-            Criador: 'ph.46m',
-            "Título": Title,
-            "Autor": Author,
-            "Duração": Duration,
-            "Visualizações": Viewer,
-            "Descrição": Description,
-            "Capa": Thumb,
-            "Canvas": canvasUrl,
-            "Link Original": Link,
-            "Download MP3": audioJson.download.downloadLink
+            status: true,
+            audio: audioData.download.downloadLink
         });
 
     } catch (e) {
@@ -347,6 +305,7 @@ app.get('/api/play-audio', async (req, res) => {
         return res.status(500).json({ status: false, mensagem: 'Erro interno ao buscar música.' });
     }
 });
+
 
 app.get('/api/youtube-mp4', async (req, res) => {
     const title = req.query.title;
